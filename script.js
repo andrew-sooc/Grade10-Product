@@ -1,4 +1,3 @@
-
 // SHOPPING CART
 
 let cart = [];
@@ -60,21 +59,35 @@ function updateCart() {
                     ₱${item.price * item.quantity}
                 </span>
 
-                <button class="remove-btn"
-                    onclick="removeItem(${index})">
-                    Remove
-                </button>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="decreaseQuantity(${index})" aria-label="Decrease ${item.name} quantity">−</button>
+                    <button class="quantity-btn" onclick="increaseQuantity(${index})" aria-label="Increase ${item.name} quantity">+</button>
+                </div>
 
             </div>
         `;
     });
 }
 
-// REMOVE PRODUCTS
+// CHANGE PRODUCT QUANTITY
 
-function removeItem(index) {
+function increaseQuantity(index) {
 
-    cart.splice(index, 1);
+    if (index < 0 || index >= cart.length) return;
+
+    cart[index].quantity++;
+    updateCart();
+}
+
+function decreaseQuantity(index) {
+
+    if (index < 0 || index >= cart.length) return;
+
+    cart[index].quantity--;
+
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
 
     updateCart();
 }
